@@ -115,13 +115,14 @@ void loop() {
     setLED(0, pulse, 0); 
   }
 
-  // Periodic Zabbix Update
+// Periodic Zabbix Update
   if (millis() - lastSend > sendInterval) {
     sensors.requestTemperatures();
     float roomTemp = sensors.getTempCByIndex(0);
     
     float chipTemp = 0;
-    temp_sensor_read_攝氏(&chipTemp);
+    // FIXED: Changed from the weird translated text to the proper C++ function
+    temp_sensor_read_celsius(&chipTemp); 
 
     // Push data
     sendToZabbix("room.temp", String(roomTemp));
