@@ -44,7 +44,12 @@ void setup() {
   setLED(statusLED.Color(50, 50, 0)); // Yellow: Booting
 
   // 1. Hardware Watchdog (10s)
-  esp_task_wdt_init(10, true); 
+  esp_task_wdt_config_t wdt_config = {
+    .timeout_ms = 10000,
+    .idle_core_mask = (1 << 0),
+    .trigger_panic = true
+  };
+  esp_task_wdt_reconfigure(&wdt_config);
   esp_task_wdt_add(NULL);
 
   // 2. Internal Temp Sensor
